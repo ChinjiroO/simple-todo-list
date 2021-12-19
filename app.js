@@ -8,11 +8,24 @@ Btn.addEventListener("click", addTodo);
 //Function
 function addTodo(e) {
   e.preventDefault();
+  // create new Todo
   const Div = document.createElement("div");
-  Div.classList.add("todo");
+  Div.classList.add("todo-item");
+
   const newTodo = document.createElement("li");
-  newTodo.innerText = "test";
-  newTodo.classList.add(".item");
+  newTodo.classList.add("item");
+
+  const newItem = document.createElement("input");
+  newItem.type = "checkbox";
+
+  const title = document.createElement("h4");
+  title.innerText = Input.value;
+  title.classList.add("title");
+
+  newTodo.appendChild(newItem);
+  newTodo.appendChild(title);
   Div.appendChild(newTodo);
-  console.log(Div);
+  List.appendChild(Div);
+  // clear Input
+  Input.value = "";
 }

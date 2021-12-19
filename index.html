@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <!-- header -->
     <header class="header">
       <h1>Todo list</h1>
     </header>
@@ -31,15 +32,9 @@
       </form>
     </div>
     <!-- list -->
-    <ul>
-      <li id="list" class="list">
-        <label class="container">
-          <input type="checkbox" checked="checked" />
-          <span class="checkmark"></span>
-          One
-        </label>
-      </li>
-    </ul>
+    <div class="todo-container">
+      <ul class="todo-list" id="list"></ul>
+    </div>
 
     <script src="app.js"></script>
   </body>
