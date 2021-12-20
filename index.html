@@ -13,6 +13,10 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
+    <script
+      src="https://kit.fontawesome.com/e74531fb87.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
     <!-- header -->
@@ -20,7 +24,7 @@
       <h1>Todo list</h1>
     </header>
     <!-- form input -->
-    <div class="container">
+    <div class="form-container">
       <form class="forms">
         <input
           id="input-todo"
@@ -31,11 +35,26 @@
         <button id="submit" class="btn btn-primary">Submit</button>
       </form>
     </div>
-    <!-- list -->
-    <div class="todo-container">
+    <!-- Container -->
+    <div class="container">
+      <!-- Sorting -->
+      <div class="sort">
+        <a class="btn">
+          <i class="fas fa-chevron-down"></i>
+          none
+        </a>
+      </div>
+      <!-- list -->
       <ul class="todo-list" id="list"></ul>
+      <!-- Completed -->
+      <div class="complete-container">
+        <span>Completed (0)</span>
+        <i class="fas fa-chevron-down"></i>
+        <!-- <ul class="todo-list" id="list-completeed"></ul> -->
+      </div>
     </div>
 
     <script src="app.js"></script>
   </body>
+  <footer><hr /></footer>
 </html>

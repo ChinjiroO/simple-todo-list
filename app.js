@@ -16,7 +16,7 @@ function addTodo(e) {
   newTodo.classList.add("item");
   const newItem = document.createElement("input");
   newItem.type = "checkbox";
-  const title = document.createElement("h4");
+  const title = document.createElement("label");
   title.innerText = Input.value;
   title.classList.add("title");
   // Input value to Local Storage
@@ -50,6 +50,7 @@ function getLocalStorageItem() {
   } else {
     items = JSON.parse(localStorage.getItem("items"));
   }
+  // items.sort();
   items.forEach(function (item) {
     const Div = document.createElement("div");
     Div.classList.add("todo-item");
@@ -57,7 +58,7 @@ function getLocalStorageItem() {
     newTodo.classList.add("item");
     const newItem = document.createElement("input");
     newItem.type = "checkbox";
-    const title = document.createElement("h4");
+    const title = document.createElement("label");
     title.innerText = item;
     title.classList.add("title");
 

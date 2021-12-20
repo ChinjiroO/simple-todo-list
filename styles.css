@@ -12,21 +12,29 @@ body {
   height: 100vh;
   background-color: rgba(var(--background-color));
   font-family: "Montserrat", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2em;
 }
 /* * Header */
 .header {
   color: rgba(var(--primary-color));
-  width: 100%;
   text-align: center;
 }
+ul {
+  transform: rotate(180deg);
+}
+ul > .todo-item {
+  transform: rotate(-180deg);
+}
 /* * Form input */
-.container {
-  margin-top: 2em;
+.form-container {
   display: flex;
   justify-content: center;
   align-content: center;
 }
-.container .forms {
+.form-container .forms {
   display: flex;
 }
 .inputs {
@@ -55,29 +63,85 @@ body {
   color: rgba(var(--primary-color));
   cursor: pointer;
 }
-/* * Todo */
-.todo-container {
-  margin-top: 1.5em;
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  border-radius: 0.5em;
+/* * Container */
+@media (min-width: 375px) {
+  .container {
+    min-width: 90%;
+    max-width: 90%;
+    /* background-color: rgba(0, 0, 0, 0.2); */
+    padding: 0.5em 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75em;
+  }
 }
+@media (min-width: 769px) {
+  .container {
+    min-width: 50%;
+    max-width: 800px;
+    /* background-color: rgba(255, 255, 255, 0.5); */
+    padding: 0.5em 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75em;
+  }
+}
+/** Sort */
+.sort {
+  display: flex;
+  justify-content: flex-end;
+}
+.sort .btn {
+  display: flex;
+  gap: 1em;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 0.25em;
+  color: rgba(0, 0, 0);
+  border: 1px solid;
+  border-color: rgba(0, 0, 0, 0.1);
+  font-weight: 300;
+  line-height: 20px;
+  font-size: 14px;
+  padding: 0.5em 1em;
+}
+.sort .btn:hover {
+  border-color: rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+/* * Todo */
 .todo-list {
-  width: 75%;
   list-style: none;
 }
+
 .todo-item {
   border-radius: 0.5em;
   margin-bottom: 0.75em;
   padding: 0.75em;
   background-color: rgba(255, 255, 255);
   font-size: medium;
+  transition: all 100ms ease-in-out;
+  transform: scale(1) rotate(-180deg);
 }
-li {
+.todo-item:hover {
+  cursor: pointer;
+  transform: scale(1.025) rotate(180deg);
+  transition: all 100ms ease-in-out;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+.item {
+  gap: 1em;
   display: flex;
   align-items: center;
 }
 .title {
-  margin-left: 0.5em;
+  max-width: 95%;
+  margin: 0 1em;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+/* * Completed  */
+.complete-conatiner {
 }
