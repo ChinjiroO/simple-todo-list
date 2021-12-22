@@ -37,14 +37,31 @@
     </div>
     <!-- Container -->
     <div class="container">
-      <!-- Sorting -->
-      <div class="sort">
-        <a class="btn">
-          <i class="fas fa-chevron-down"></i>
-          none
-        </a>
+      <!-- Dropdown -->
+      <div class="dropdown">
+        <button
+          class="btn"
+          type="button"
+          data-bs-toggle="dropdown"
+          id="dropdown-toggle"
+          aria-expanded="false"
+        >
+          <i id="iconBtn" class="fas fa-chevron-down"></i>
+          Name
+        </button>
       </div>
+      <!-- Dropdown menu -->
+      <ol
+        class="dropdown-menu"
+        id="dropdownMenu"
+        aria-labelledby="dropdown-toggle"
+      >
+        <li><a class="dropdown-item">Created date</a></li>
+        <li><a class="dropdown-item">test</a></li>
+        <hr />
+      </ol>
       <!-- list -->
+      <!-- TODO: custom checkbox -->
       <ul class="todo-list" id="list"></ul>
       <!-- Completed -->
       <div class="complete-container">
