@@ -110,7 +110,6 @@ ul > .todo-item {
   cursor: pointer;
 }
 .dropdown-menu {
-  visibility: hidden;
   align-self: end;
   position: absolute;
   z-index: 1000;
@@ -152,19 +151,35 @@ ul > .todo-item {
   transition: all 100ms ease-in-out;
   background-color: rgba(255, 255, 255, 0.5);
 }
+.todo-item:hover .del-icon {
+  transition: all 150ms ease-in-out;
+  transform: scale(1);
+}
 .item {
   gap: 1em;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 .title {
-  max-width: 95%;
+  width: 100%;
   margin: 0 1em;
   overflow: hidden;
   overflow-wrap: break-word;
   word-wrap: break-word;
+  cursor: pointer;
 }
 
 /* * Completed  */
-.complete-conatiner {
+.complete-btn {
+  cursor: pointer;
+}
+
+.del-icon {
+  color: rgba(0, 0, 0, 0.4);
+  transform: scale(0);
+}
+.del-icon:hover {
+  color: rgba(0, 0, 0, 0.6);
+  transform: scale(1.1);
 }

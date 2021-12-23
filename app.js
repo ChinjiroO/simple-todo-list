@@ -3,52 +3,17 @@ const Input = document.querySelector("#input-todo");
 const List = document.querySelector("#list");
 const Toggle = document.getElementById("dropdown-toggle");
 const IconBtn = document.getElementById("iconBtn");
+const BtnComplete = document.getElementById("completeBtn");
+const IconBtnComplete = document.getElementById("iconExpandedComplete");
+IconBtn.style.transform = "rotate(360deg)";
 
 // * Event listeners
 document.addEventListener("DOMContentLoaded", getLocalStorageItem);
 Btn.addEventListener("click", addTodo);
 Toggle.addEventListener("click", showDropdown);
-// * Click outside Dropdown Menu
 document.addEventListener("click", insideDropdownMenu);
-
-// * Dropdown function
-function showDropdown() {
-  let Icon = IconBtn.getAttribute("class").valueOf();
-  if (document.getElementById("dropdownMenu").style.visibility === "visible") {
-    IconBtn.style.transform = "rotate(360deg)";
-    document.getElementById("dropdownMenu").style.visibility = "hidden";
-    IconBtn.style.transition = "all 300ms ease-in-out ";
-    // IconBtn.classList = Icon.replace("up", "down");
-    console.log("hidden1");
-  } else {
-    IconBtn.style.transform = "rotate(180deg)";
-    document.getElementById("dropdownMenu").style.visibility = "visible";
-    IconBtn.style.transition = "all 300ms ease-in-out ";
-
-    // IconBtn.classList = Icon.replace("down", "up");
-    console.log("visible");
-  }
-}
-function insideDropdownMenu(e) {
-  var element = document.getElementById("dropdownMenu").contains(e.target);
-  let Icon = IconBtn.getAttribute("class").valueOf();
-  if (
-    element &&
-    document.getElementById("dropdownMenu").style.visibility === "visible"
-  ) {
-    IconBtn.style.transform = "rotate(360deg)";
-    document.getElementById("dropdownMenu").style.visibility = "hidden";
-    // IconBtn.classList = Icon.replace("up", "down");
-    console.log("hidden");
-  } else if (!element && !Toggle.contains(e.target)) {
-    // IconBtn.classList = Icon.replace("up", "down");
-    IconBtn.style.transform = "rotate(360deg)";
-    document.getElementById("dropdownMenu").style.visibility = "hidden";
-    console.log("hidden");
-  } else {
-    return;
-  }
-}
+BtnComplete.addEventListener("click", handleClickComplete);
+List.addEventListener("click", deleteItem);
 
 // * Create Todo
 function addTodo(e) {
@@ -63,18 +28,22 @@ function addTodo(e) {
   const title = document.createElement("label");
   title.innerText = Input.value;
   title.classList.add("title");
+  const trashIcon = document.createElement("i");
+  trashIcon.classList.add("fas", "fa-trash-alt", "del-icon");
+
   // Input value to Local Storage
   saveToLocalStorage(Input.value);
 
   newTodo.appendChild(newItem);
   newTodo.appendChild(title);
+  newTodo.appendChild(trashIcon);
   Div.appendChild(newTodo);
   List.appendChild(Div);
   // clear Input
   Input.value = "";
 }
 
-// * Save to Local storage
+// * Save to LocalStorage
 function saveToLocalStorage(item) {
   let items;
   if (localStorage.getItem("items") === null) {
@@ -82,19 +51,18 @@ function saveToLocalStorage(item) {
   } else {
     items = JSON.parse(localStorage.getItem("items"));
   }
-
   items.push(item);
   localStorage.setItem("items", JSON.stringify(items));
 }
-// * Get item in local storage to show on HTML
-function getLocalStorageItem() {
+
+// * Show items[] from LocalStorge
+function getLocalStorageItem(item) {
   let items;
   if (localStorage.getItem("items") === null) {
     items = [];
   } else {
     items = JSON.parse(localStorage.getItem("items"));
   }
-  // items.sort();
   items.forEach(function (item) {
     const Div = document.createElement("div");
     Div.classList.add("todo-item");
@@ -105,14 +73,80 @@ function getLocalStorageItem() {
     const title = document.createElement("label");
     title.innerText = item;
     title.classList.add("title");
+    const trashIcon = document.createElement("i");
+    trashIcon.classList.add("fas", "fa-trash-alt", "del-icon");
 
     newTodo.appendChild(newItem);
     newTodo.appendChild(title);
+    newTodo.appendChild(trashIcon);
     Div.appendChild(newTodo);
     List.appendChild(Div);
   });
 }
-// * Update Todo
+
+// TODO: move items[] ==> itemsComplete
+function todoComplete(completeItem) {
+  let completeItems;
+  if (localStorage.getItem("completeItems") === null) {
+    completeItems = [];
+    console.log("completed = null");
+  } else {
+    completeItems = JSON.parse(localStorage.getItem("completeItems"));
+    console.log("completed = ", completeItems);
+  }
+}
+// TODO: Update Todo
 function updateItem() {}
-// * Delete Todo
-function deleteItem() {}
+// TODO: Delete Todo
+function deleteItem(e) {
+  const item = e.target;
+  if (item.classList == "fas fa-trash-alt del-icon") {
+    const todo = item.parentElement.parentElement;
+    deleteItemFromLocal(todo);
+    todo.remove();
+  }
+}
+function deleteItemFromLocal(item) {
+  let items;
+  if (localStorage.getItem("items") === null) {
+    items = [];
+  } else {
+    items = JSON.parse(localStorage.getItem("items"));
+  }
+  const index = item.children[0].innerText;
+  items.splice(items.indexOf(index), 1);
+  localStorage.setItem("items", JSON.stringify(items));
+}
+
+// TODO: Show complete list on click
+function handleClickComplete() {
+  IconBtnComplete.style.transform += "rotate(180deg)";
+}
+
+// TODO: Dropdown function
+function showDropdown() {
+  if (document.getElementById("dropdownMenu").style.visibility === "visible") {
+    IconBtn.style.transform = "rotate(360deg)";
+    IconBtn.style.transition = "all 300ms ease-in-out ";
+    document.getElementById("dropdownMenu").style.visibility = "hidden";
+  } else {
+    IconBtn.style.transform = "rotate(180deg)";
+    IconBtn.style.transition = "all 300ms ease-in-out ";
+    document.getElementById("dropdownMenu").style.visibility = "visible";
+  }
+}
+function insideDropdownMenu(e) {
+  var element = document.getElementById("dropdownMenu").contains(e.target);
+  if (
+    element &&
+    document.getElementById("dropdownMenu").style.visibility === "visible"
+  ) {
+    IconBtn.style.transform = "rotate(360deg)";
+    document.getElementById("dropdownMenu").style.visibility = "hidden";
+  } else if (!element && !Toggle.contains(e.target)) {
+    IconBtn.style.transform = "rotate(360deg)";
+    document.getElementById("dropdownMenu").style.visibility = "hidden";
+  } else {
+    return;
+  }
+}
