@@ -43,6 +43,10 @@ ul > .todo-item {
   font-size: medium;
   border-radius: 0.25em 0 0 0.25em;
 }
+.inputs.edit {
+  border-radius: 0.25em;
+  width: 100%;
+}
 .inputs:focus {
   border: 0;
   background-color: rgba(0, 0, 0, 0.1);
@@ -167,14 +171,15 @@ ul > .todo-item {
   overflow: hidden;
   overflow-wrap: break-word;
   word-wrap: break-word;
-  cursor: pointer;
+  cursor: text;
 }
-
+.title.complete {
+  color: rgba(0, 0, 0, 0.5);
+}
 /* * Completed  */
 .complete-btn {
   cursor: pointer;
 }
-
 .del-icon {
   color: rgba(0, 0, 0, 0.4);
   transform: scale(0);
@@ -182,4 +187,40 @@ ul > .todo-item {
 .del-icon:hover {
   color: rgba(0, 0, 0, 0.6);
   transform: scale(1.1);
+}
+.checkbox {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  fill: none;
+  justify-items: center;
+  align-items: center;
+}
+circle {
+  cx: 34.5px;
+  cy: 34.5px;
+  r: 32px;
+  stroke: black;
+  stroke-width: 5;
+}
+.checkbox circle {
+  transform-origin: center;
+  transform: scale(1);
+  transition: all 100ms ease-in-out;
+}
+.checkbox path {
+  transform-origin: center;
+  transform: scale(0);
+  transition: all 300ms ease-in-out;
+}
+
+.checkbox:hover circle {
+  transform-origin: center;
+  transform: scale(0);
+  transition: all 100ms ease-in-out;
+}
+.checkbox:hover path {
+  transform-origin: center;
+  transform: scale(1);
+  transition: all 100ms ease-in-out;
 }
