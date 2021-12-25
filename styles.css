@@ -224,3 +224,5 @@ circle {
   transform: scale(1);
   transition: all 100ms ease-in-out;
 }
+.checkbox:focus {
+}

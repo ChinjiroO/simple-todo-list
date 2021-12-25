@@ -1,7 +1,8 @@
-const Btn = document.querySelector("#submit");
-const Input = document.querySelector("#input-todo");
+const submitBtn = document.querySelector("#submit");
+const input = document.querySelector("#input-todo");
 const List = document.querySelector("#list");
-const Toggle = document.getElementById("dropdown-toggle");
+const completeList = document.querySelector("#list-complete");
+const dropdownToggle = document.getElementById("dropdown-toggle");
 const IconBtn = document.getElementById("iconBtn");
 const BtnComplete = document.getElementById("completeBtn");
 const IconBtnComplete = document.getElementById("iconExpandedComplete");
@@ -11,19 +12,20 @@ IconBtn.style.transform = "rotate(360deg)";
 
 // * Event listeners
 document.addEventListener("DOMContentLoaded", getLocalStorageItem);
-Btn.addEventListener("click", addTodo);
-Toggle.addEventListener("click", showDropdown);
+submitBtn.addEventListener("click", addTodo);
+dropdownToggle.addEventListener("click", showDropdown);
 document.addEventListener("click", insideDropdownMenu);
 BtnComplete.addEventListener("click", handleClickComplete);
 List.addEventListener("click", deleteItem);
 List.addEventListener("click", updateItem);
+List.addEventListener("click", checkComplete);
 
 // * ✅ DONE: Create Todo
 function addTodo(e) {
   e.preventDefault();
   // create new Todo
-  const Div = document.createElement("div");
-  Div.classList.add("todo-item");
+  const div = document.createElement("div");
+  div.classList.add("todo-item");
   const list = document.createElement("li");
   list.classList.add("item");
   const checkbox = document.createElementNS(
@@ -49,23 +51,23 @@ function addTodo(e) {
   path.setAttribute("fill", "#3180FF");
 
   const title = document.createElement("label");
-  title.innerText = Input.value;
+  title.innerText = input.value;
   title.classList.add("title");
   const trashIcon = document.createElement("i");
   trashIcon.classList.add("fas", "fa-trash-alt", "del-icon");
 
   // Input value to Local Storage
-  saveToLocalStorage(Input.value);
+  saveToLocalStorage(input.value);
 
   checkbox.appendChild(circle);
   checkbox.appendChild(path);
   list.appendChild(checkbox);
   list.appendChild(title);
   list.appendChild(trashIcon);
-  Div.appendChild(list);
-  List.appendChild(Div);
+  div.appendChild(list);
+  List.appendChild(div);
   // clear Input
-  Input.value = "";
+  input.value = "";
 }
 
 // * ✅ DONE: Save to LocalStorage
@@ -131,16 +133,28 @@ function getLocalStorageItem(item) {
 }
 
 // TODO: ✏️  move items[] ==> itemsComplete
-function todoComplete(completeItem) {
-  let completeItems;
-  if (localStorage.getItem("completeItems") === null) {
-    completeItems = [];
-    console.log("completed = null");
-  } else {
-    completeItems = JSON.parse(localStorage.getItem("completeItems"));
-    console.log("completed = ", completeItems);
+function checkComplete(e) {
+  const item = e.target;
+  if (item.classList[0] === "checkbox") {
+    let todo_item = item.parentElement.parentElement;
+    completeLocal(todo_item);
+    deleteItemFromLocal(todo_item);
+    todo_item.remove();
+    console.log(todo_item.children[0].innerText);
   }
 }
+function completeLocal(todo) {
+  let itemCompleted;
+  if (localStorage.getItem("itemCompleted") === null) {
+    itemCompleted = [];
+  } else {
+    itemCompleted = JSON.parse(localStorage.getItem("itemCompleted"));
+  }
+  itemCompleted.push(todo.children[0].innerText);
+  localStorage.setItem("itemCompleted", JSON.stringify(itemCompleted));
+}
+// TODO: ✏️  Get completed list
+function getCompletedList() {}
 // TODO: ✏️  Update Todo
 function updateItem(e) {
   let item = e.target;
@@ -217,7 +231,7 @@ function insideDropdownMenu(e) {
   ) {
     IconBtn.style.transform = "rotate(360deg)";
     document.getElementById("dropdownMenu").style.visibility = "hidden";
-  } else if (!element && !Toggle.contains(e.target)) {
+  } else if (!element && !dropdownToggle.contains(e.target)) {
     IconBtn.style.transform = "rotate(360deg)";
     document.getElementById("dropdownMenu").style.visibility = "hidden";
   } else {
