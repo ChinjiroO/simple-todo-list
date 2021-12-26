@@ -224,5 +224,9 @@ circle {
   transform: scale(1);
   transition: all 100ms ease-in-out;
 }
-.checkbox:focus {
+.checkbox.complete path {
+  transform: scale(1);
+}
+.checkbox.complete circle {
+  transform: scale(0);
 }
