@@ -2,20 +2,14 @@ const submitBtn = document.querySelector("#submit");
 const input = document.querySelector("#input-todo");
 const List = document.querySelector("#list");
 const completeList = document.querySelector("#list-complete");
-const dropdownToggle = document.getElementById("dropdown-toggle");
-const IconBtn = document.getElementById("iconBtn");
 const BtnComplete = document.getElementById("completeBtn");
 const IconBtnComplete = document.getElementById("iconExpandedComplete");
 const EditTItle = document.querySelector("#edit");
-var Title = document.querySelectorAll(".title");
-IconBtn.style.transform = "rotate(360deg)";
 
 // * Event listeners
 document.addEventListener("DOMContentLoaded", getLocalStorageItem);
 document.addEventListener("DOMContentLoaded", getCompletedList);
 submitBtn.addEventListener("click", addTodo);
-dropdownToggle.addEventListener("click", showDropdown);
-document.addEventListener("click", insideDropdownMenu);
 BtnComplete.addEventListener("click", handleClickComplete);
 List.addEventListener("click", deleteItem);
 List.addEventListener("click", updateItem);
@@ -307,6 +301,7 @@ function deleteItemFromLocal(item) {
     items = JSON.parse(localStorage.getItem("items"));
   }
   const index = item.children[0].innerText;
+  //! BUG: Error index of array is -1 on Safari
   items.splice(items.indexOf(index), 1);
   localStorage.setItem("items", JSON.stringify(items));
   item.remove();
@@ -315,32 +310,4 @@ function deleteItemFromLocal(item) {
 // TODO: ✏️ Show complete list on click
 function handleClickComplete() {
   IconBtnComplete.style.transform += "rotate(180deg)";
-}
-
-// TODO: ✏️ Dropdown function
-function showDropdown() {
-  if (document.getElementById("dropdownMenu").style.visibility === "visible") {
-    IconBtn.style.transform = "rotate(360deg)";
-    IconBtn.style.transition = "all 300ms ease-in-out ";
-    document.getElementById("dropdownMenu").style.visibility = "hidden";
-  } else {
-    IconBtn.style.transform = "rotate(180deg)";
-    IconBtn.style.transition = "all 300ms ease-in-out ";
-    document.getElementById("dropdownMenu").style.visibility = "visible";
-  }
-}
-function insideDropdownMenu(e) {
-  var element = document.getElementById("dropdownMenu").contains(e.target);
-  if (
-    element &&
-    document.getElementById("dropdownMenu").style.visibility === "visible"
-  ) {
-    IconBtn.style.transform = "rotate(360deg)";
-    document.getElementById("dropdownMenu").style.visibility = "hidden";
-  } else if (!element && !dropdownToggle.contains(e.target)) {
-    IconBtn.style.transform = "rotate(360deg)";
-    document.getElementById("dropdownMenu").style.visibility = "hidden";
-  } else {
-    return;
-  }
 }
