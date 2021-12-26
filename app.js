@@ -11,9 +11,10 @@ document.addEventListener("DOMContentLoaded", getLocalStorageItem);
 document.addEventListener("DOMContentLoaded", getCompletedList);
 submitBtn.addEventListener("click", addTodo);
 BtnComplete.addEventListener("click", handleClickComplete);
-List.addEventListener("click", deleteItem);
 List.addEventListener("click", updateItem);
 List.addEventListener("click", checkComplete);
+List.addEventListener("click", deleteItem);
+completeList.addEventListener("click", deleteCompleteItem);
 // completeList.addEventListener("click", checkTarget);
 
 // * ✅ DONE: Create Todo
@@ -196,37 +197,6 @@ function getCompletedList() {
     completeList.appendChild(Div);
   });
 }
-// TODO: ✏️  Update Todo
-function updateItem(e) {
-  let item = e.target;
-  if (item.classList[0] === "title") {
-    const form = document.createElement("form");
-    var edit = document.createElement("input");
-    edit.type = "text";
-    edit.id = "edit";
-    edit.classList.add("inputs", "edit");
-    edit.autofocus = true;
-    edit.addEventListener("change", changeValue);
-    const parent = item.parentElement;
-    form.appendChild(edit);
-    parent.replaceChild(edit, item);
-  }
-}
-function changeValue(e, item) {
-  e.preventDefault();
-  console.log(e.target.value);
-  let items;
-  if (localStorage.getItem("items") === null) {
-    items = [];
-  } else items = JSON.parse(localStorage.getItem("items"));
-  console.log(items);
-}
-function updateItemFromLocal(item) {
-  let items;
-  if (localStorage.getItem("items") === null) {
-    items = [];
-  } else items = JSON.parse(localStorage.getItem("items"));
-}
 // * ✅ DONE: move items[] ==> itemCompleted[]
 function checkComplete(e) {
   const item = e.target;
@@ -302,12 +272,65 @@ function deleteItemFromLocal(item) {
   }
   const index = item.children[0].innerText;
   //! BUG: Error index of array is -1 on Safari
+  console.log(items.indexOf(index));
   items.splice(items.indexOf(index), 1);
   localStorage.setItem("items", JSON.stringify(items));
+  item.remove();
+}
+function deleteCompleteItem(e) {
+  const item = e.target;
+  if (item.classList == "fas fa-trash-alt del-icon") {
+    const todo = item.parentElement.parentElement;
+    deleteCompleteItemLocal(todo);
+  }
+}
+function deleteCompleteItemLocal(item) {
+  let itemCompleted;
+  if (localStorage.getItem("itemCompleted") === null) {
+    itemCompleted = [];
+  } else {
+    itemCompleted = JSON.parse(localStorage.getItem("itemCompleted"));
+  }
+  const index = item.children[0].innerText;
+  console.log(index);
+  console.log(itemCompleted.indexOf(index));
+  itemCompleted.splice(itemCompleted.indexOf(index), 1);
+  localStorage.setItem("itemCompleted", JSON.stringify(itemCompleted));
   item.remove();
 }
 
 // TODO: ✏️ Show complete list on click
 function handleClickComplete() {
   IconBtnComplete.style.transform += "rotate(180deg)";
+}
+// TODO: ✏️  Update Todo
+function updateItem(e) {
+  let item = e.target;
+  if (item.classList[0] === "title") {
+    const form = document.createElement("form");
+    var edit = document.createElement("input");
+    edit.type = "text";
+    edit.id = "edit";
+    edit.classList.add("inputs", "edit");
+    edit.autofocus = true;
+    edit.addEventListener("change", changeValue);
+    const parent = item.parentElement;
+    form.appendChild(edit);
+    parent.replaceChild(edit, item);
+  }
+}
+function changeValue(e, item) {
+  e.preventDefault();
+  console.log(e.target.value);
+  let items;
+  if (localStorage.getItem("items") === null) {
+    items = [];
+  } else items = JSON.parse(localStorage.getItem("items"));
+  console.log(items);
+}
+function updateItemFromLocal(item) {
+  let items;
+  if (localStorage.getItem("items") === null) {
+    items = [];
+  } else items = JSON.parse(localStorage.getItem("items"));
 }
